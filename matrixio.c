@@ -3,13 +3,13 @@
 
 #include "matrixio.h"
 
-int extendMatrix(int ***matrixPtr, int newSize) {
+int extendMatrix(int ***matrixPtr, unsigned int newSize) {
   (*matrixPtr) = (int**) realloc(*matrixPtr, newSize * sizeof(int*));
 
   return matrixPtr != NULL || newSize == 0;
 }
 
-int extendArray(int **arrayPtr, int newSize) {
+int extendArray(int **arrayPtr, unsigned int newSize) {
   (*arrayPtr) = (int*) realloc(*arrayPtr, newSize * sizeof(int));
 
   return arrayPtr != NULL || newSize == 0;
@@ -37,9 +37,9 @@ int reverse(int num) {
   return ret;
 }
 
-int * readLine(FILE *file, int *columns) {
+int * readLine(FILE *file, unsigned int *columns) {
 
-  int size = 0;
+  unsigned int size = 0;
   int *row = NULL;
   *columns = 0;
 
@@ -71,10 +71,10 @@ int * readLine(FILE *file, int *columns) {
   return row;
 }
 
-int ** readMatrix(const char *fileName, int *rowsPtr, int *colsPtr) {
+int ** readMatrix(const char *fileName, unsigned int *rowsPtr, unsigned int *colsPtr) {
   int **matrix = NULL;
 
-  int rows = 0;
+  unsigned int rows = 0;
   int columns = -1;
 
   FILE *file = fopen(fileName, "r");
@@ -103,6 +103,11 @@ int ** readMatrix(const char *fileName, int *rowsPtr, int *colsPtr) {
   }
 
   *rowsPtr = rows;
-  *colsPtr = columns;
+  if (columns > 0) {
+    *colsPtr = columns;
+  } else {
+    *colsPtr = -columns;
+  }
+
   return matrix;
 }
