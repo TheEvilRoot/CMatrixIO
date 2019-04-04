@@ -79,7 +79,8 @@ int ** readMatrix(const char *fileName, unsigned int *rowsPtr, unsigned int *col
 
   FILE *file = fopen(fileName, "r");
 
-  if (ferror(file) > 0) {
+  if (file == NULL || ferror(file) > 0) {
+  	if (file != NULL) printf("Error %d\n", ferror(file));
     return NULL;
   }
 
